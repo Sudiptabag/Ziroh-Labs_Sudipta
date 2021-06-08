@@ -1,0 +1,97 @@
+using System;
+class GFG{
+
+class Node
+{
+public int key;
+public Node next;
+};
+
+static Node newNode(int key)
+{
+Node temp = new Node();
+temp.key = key;
+temp.next = null;
+return temp;
+}
+
+
+static void printList(Node head)
+{
+while (head != null)
+{
+	Console.Write(head.key + " ");
+	head = head.next;
+}
+Console.WriteLine();
+}
+
+
+static Node detectAndRemoveLoop(Node head)
+{
+
+
+if (head == null || head.next == null)
+	return null;
+
+Node slow = head, fast = head;
+
+
+slow = slow.next;
+fast = fast.next.next;
+
+
+while (fast != null &&
+		fast.next != null)
+{
+	if (slow == fast)
+	break;
+	slow = slow.next;
+	fast = fast.next.next;
+}
+
+
+if (slow != fast)
+	return null;
+
+
+slow = head;
+while (slow != fast)
+{
+	slow = slow.next;
+	fast = fast.next;
+}
+
+return slow;
+}
+
+
+public static void Main(String[] args)
+{
+Node head = newNode(4);
+head.next = newNode(7);
+head.next.next = newNode(2);
+head.next.next.next = newNode(21);
+head.next.next.next.next = newNode(12);
+head.next.next.next.next.next = newNode(5);
+head.next.next.next.next.next.next = newNode(1);
+head.next.next.next.next.next.next.next = newNode(11);
+head.next.next.next.next.next.next.next.next = newNode(19);
+head.next.next.next.next.next.next.next.next.next= newNode(13);
+head.next.next.next.next.next.next.next.next.next.next = newNode(9);
+  
+  
+head.next.next.next.next.next.next.next.next.next.next  =
+					head.next.next.next.next;
+
+Node res = detectAndRemoveLoop(head);
+
+if (res == null)
+	Console.Write("Loop does not exist");
+else
+	Console.Write("Loop starting node is " +
+				res.key);
+}
+}
+
+
